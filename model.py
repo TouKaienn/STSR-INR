@@ -14,28 +14,6 @@ import sys
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
-class STSR_INR(nn.Module):
-    def __init__(self, in_coords_dims=4, out_features=1, init_features=64,num_res=5,outermost_linear=True,embedding_dims=256,omega_0=30):
-        super(STSR_INR,self).__init__()
-        self.in_coords_dims = in_coords_dims
-        self.layer_num = num_res+3 # Middle ResBlock + Head ResBlocks + tail Blocks
-        self.out_features = out_features
-        self.Modulated_Net = Body(in_features=embedding_dims,init_features=init_features,num_res=num_res,omega_0=omega_0)
-        self.Synthesis_Net = Body(in_features=in_coords_dims,init_features=init_features,num_res=num_res,omega_0=omega_0)
-        self.final_layers = nn.ModuleList([Head(4*init_features,outermost_linear=outermost_linear) for _ in range(out_features)])
-
-    def forward(self,coords,latent):
-        latent_code = self.Modulated_Net.net[0](latent)
-        coords_feat = self.Synthesis_Net.net[0](coords)
-        for i in range(1,self.layer_num):
-            coords_feat = self.Synthesis_Net.net[i](coords_feat*latent_code)
-            latent_code = self.Modulated_Net.net[i](latent_code)
-        if (self.out_features==1):
-            output = self.final_layers[0](coords_feat,latent_code)
-        else:
-            output = torch.cat([self.final_layers[j](coords_feat,latent_code).reshape(-1,1) for j in range(self.out_features)],dim=-1)
-        return output
-
 
 class Sine(nn.Module):
     def __init(self):
@@ -123,7 +101,7 @@ class Body(nn.Module):
         self.num_res = num_res
 
         self.net = []
-        self.net.append(SineLayer(in_features,init_features,omega_0=omega_0,is_first=True))
+        self.net.append(SineLayer(in_features,init_features,omega_0=omega_0))
     
         self.net.append(SineLayer(init_features,2*init_features,omega_0=omega_0))
 
@@ -140,6 +118,31 @@ class Body(nn.Module):
         output = self.net(coords)
         return output
 
+
+    
+class STSR_INR(nn.Module):
+    def __init__(self, in_coords_dims=4, out_features=1, init_features=64,num_res=5,outermost_linear=True,embedding_dims=256,omega_0=30):
+        super(STSR_INR,self).__init__()
+        self.in_coords_dims = in_coords_dims
+        self.layer_num = num_res+3 # Middle ResBlock + Head ResBlocks + tail Blocks
+        self.out_features = out_features
+        self.Modulated_Net = Body(in_features=embedding_dims,init_features=init_features,num_res=num_res,omega_0=omega_0)
+        self.Synthesis_Net = Body(in_features=in_coords_dims,init_features=init_features,num_res=num_res,omega_0=omega_0)
+        self.final_layers = nn.ModuleList([Head(4*init_features,outermost_linear=outermost_linear) for _ in range(out_features)])
+
+    def forward(self,coords,latent):
+        latent_code = self.Modulated_Net.net[0](latent)
+        coords_feat = self.Synthesis_Net.net[0](coords)
+        for i in range(1,self.layer_num):
+            coords_feat = self.Synthesis_Net.net[i](coords_feat*latent_code)
+            latent_code = self.Modulated_Net.net[i](latent_code)
+        if (self.out_features==1):
+            output = self.final_layers[0](coords_feat,latent_code)
+        else:
+            output = torch.cat([self.final_layers[j](coords_feat,latent_code).reshape(-1,1) for j in range(self.out_features)],dim=-1)
+        return output
+
+    
 class Head(nn.Module):
     def __init__(self,feature_dims,outermost_linear,output_features=1,omega_0=30):
         super(Head,self).__init__()
@@ -152,10 +155,9 @@ class Head(nn.Module):
                                             SineLayer(feature_dims,feature_dims//2,omega_0=omega_0),
                                             SineLayer(feature_dims//2,feature_dims//4,omega_0=omega_0)
                                             ])
-        self.act = nn.Tanh()
         if outermost_linear:
-            self.final_layer = nn.Linear(feature_dims//4,output_features)
-            
+            self.final_layer = nn.Sequential(nn.Linear(feature_dims//4,output_features),
+                                             nn.Tanh())
         else:
             self.final_layer = SineLayer(feature_dims//4,output_features,omega_0=omega_0)
             
@@ -176,7 +178,9 @@ class VarVADEmbedding(nn.Module):
         self.reset_parameters()
     
     def reset_parameters(self):
+
         mu_init_std = 1.0 / np.sqrt(self.dim)
+
         torch.nn.init.normal_(
             self.weight_mu.data,
             0.0,

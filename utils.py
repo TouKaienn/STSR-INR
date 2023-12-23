@@ -221,7 +221,7 @@ class EvalMetric():
         Returns:
             _type_: _description_
         """
-
+        print(self.GT_dirPath,self.eval_dirPath)
         filePaths_GT = getAllDatFilePaths(self.GT_dirPath)
         filePaths_eval = getAllDatFilePaths(self.eval_dirPath)
         GT_length = len(filePaths_eval)

@@ -1,0 +1,25 @@
+model_name: STSR 
+mode: local_inf # train, debug or inf local_inf
+comment: STSR-result for ionization
+model_setting:
+  init: 64 #init features
+  num_res: 5 #number of res blocks
+  omega_0: 5
+
+train_setting:
+  lr: 1.0e-5 #init learning rate
+  latent_lr: 1.0e-5
+  log_root_dir: './Exp/ionization'
+  version: ionization
+  num_epochs: 601
+  checkpoints_interval: 300
+  resume: True
+
+data_setting:
+  dataset: ["ionization_H+","ionization_PD","ionization_H2","ionization_GT"] #Dataset_Var
+  splitTimes: 3  #if splitTimes is larger than 1, remember to change batchsize//2**(splitTimes*3-1)
+  unsupervised: False # unsupervised training or not, will affect inference part logic
+  DownSampling: Sample #Resize or Sample
+  batch_size: 8000 # the batch size
+  interval: 3 # The interval for interpolating
+  scale: 4 # The Downsmapling Scale

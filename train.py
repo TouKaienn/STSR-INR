@@ -122,10 +122,11 @@ class Train():
             
             if (itera%100 == 0):
                 self.setDecoderCheckPoint(itera)
+                self.quickInf(itera)
             
             if (itera%self.checkpoints_interval == 0) or (itera==1):
                 self.setDecoderCheckPoint(itera)
-                self.quickInf(itera)
+                
             
             for batch_idx,data in enumerate(self.train_loader):
                 idx += 1
@@ -176,8 +177,7 @@ class Train():
             total_PSNR = 0
             for k in range(len(self.vars)):
                 results_path = os.path.join(self.Results_path,self.vars[k])
-                # gt_norm_path = self.datasetInfo[self.vars[k]]['norm_data_path']
-                gt_norm_path = self.datasetInfo[self.vars[k]]['data_path']
+                gt_norm_path = os.path.dirname(self.datasetInfo[self.vars[k]]['data_path'])
                 evalWidget = EvalMetric(gt_norm_path,results_path,verbose=True)
                 mean_PSNR,PSNR_array = evalWidget.getPSNR()
                 total_PSNR += mean_PSNR

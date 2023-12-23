@@ -1,4 +1,16 @@
 {
+    "ionization":{
+        "dim"          : [600,248,248],
+        "total_samples": 100,
+        "vars"         : ["H+","PD","H2","GT"],
+        "data_path"    : {
+            "H+": "./Data/H+/H+-",
+            "PD": "./Data/PD/PD",
+            "H2": "./Data/H2/H2",
+            "GT": "./Data/GT/GT"
+        },
+        "_comment": "available total_time_samples is 100"
+    },
     "Cylinder":{
         "dim"          : [640,240,80],
         "total_samples": 100,
