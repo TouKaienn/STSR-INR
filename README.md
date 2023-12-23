@@ -20,6 +20,6 @@ Save all your data in ./Data dir and then modify ./dataInfo/localDataInfo.json t
 
 Then run the training and inference with:
 ```
-python3 main.py --config_path './configs/vorts.yml'
+python3 main.py --config_path './configs/jointTrain.yml'
 ```
 After training and inference finished, you should be able to find the results in ../Exp dir.
