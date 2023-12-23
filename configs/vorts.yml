@@ -1,0 +1,24 @@
+model_name: STSR 
+mode: debug # train, debug or inf local_inf
+comment: STSR
+model_setting:
+  init   : 64 # init features
+  num_res: 5  # number of res blocks
+  omega_0: 5  # Sine hyper-parameter
+
+train_setting:
+  lr                  : 1.0e-5 # model parameter learning ratre
+  latent_lr           : 1.0e-5 # latent learning rate
+  log_root_dir        : '../Exp/Vortex' # log information dir
+  version             : JointTrain # the Exp folder name
+  num_epochs          : 301 # number of epochs for training
+  checkpoints_interval: 300 # checkpoint interval
+  resume              : False # resume from checkpoint file?
+
+data_setting:
+  dataset     : ["Vortex_Scalar","Jet_Scalar","Tornado_Scalar"] # Dataset_Var in localDataInfo.json file
+  splitTimes  : 3     # split times for multi-heads, split once will result in 8 equal size sub-volume
+  unsupervised: False # unsupervised training or not, will affect inference part logic
+  batch_size  : 8000 # the training batch size
+  interval    : 3 # The sampling interval for time dim
+  scale       : 2 # The sampling scale for spatial dims
