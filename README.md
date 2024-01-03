@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```
 
 ## Data Format
-The volume at each time step is saved as a .raw file with the little-endian format. The data is stored in column-major order, that is, z-axis goes first, then y-axis, finally x-axis. You could download our joint training and ionization data with the link over here: https://www.dropbox.com/scl/fi/61r42t9aur5qzu6mn659l/Data.zip?rlkey=xpbo2h5m1nzfj6ai6szx8iexm&dl=0
+The volume at each time step is saved as a .raw file with the little-endian format. The data is stored in column-major order, that is, z-axis goes first, then y-axis, finally x-axis. You could download our joint training and ionization data with the link over here: https://drive.google.com/file/d/1Tw1DYlQNLYzpHR51TYesrP40BWUsQezL/view?usp=drive_link
 
 Unzip the downloaded file and put the data into the root dir, you could get a similar file structure like this:
 ```
