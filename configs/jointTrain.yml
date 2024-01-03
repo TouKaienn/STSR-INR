@@ -9,7 +9,7 @@ model_setting:
 train_setting:
   lr                  : 1.0e-5 # model parameter learning ratre
   latent_lr           : 1.0e-5 # latent learning rate
-  log_root_dir        : '../Exp/Vortex' # log information dir
+  log_root_dir        : './Exp/Vortex' # log information dir
   version             : JointTrain # the Exp folder name
   num_epochs          : 301 # number of epochs for training
   checkpoints_interval: 300 # checkpoint interval

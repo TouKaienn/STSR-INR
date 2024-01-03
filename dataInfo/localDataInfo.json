@@ -11,19 +11,6 @@
         },
         "_comment": "available total_time_samples is 100"
     },
-    "Cylinder":{
-        "dim"          : [640,240,80],
-        "total_samples": 100,
-        "vars"         : ["160","320","640","6400"],
-        "data_path"    : {
-            "160": "./Data/CylinderVLM/160/half-cylinder-160-magnitude-",
-            "320": "./Data/CylinderVLM/320/half-cylinder-320-magnitude-",
-            "640": "./Data/CylinderVLM/640/half-cylinder-640-magnitude-",
-            "6400": "./Data/CylinderVLM/6400/half-cylinder-6400-magnitude-"
-        },
-        "_comment": "available total_time_samples is 100"
-    },
-
     "Vortex":{
         "dim"          : [128,128,128],
         "total_samples": 48,
