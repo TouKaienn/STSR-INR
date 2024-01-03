@@ -1,5 +1,5 @@
 # STSR-INR: Spatiotemporal Super-Resolution for Multivariate Time-Varying Volumetric Data via Implicit Neural Representation
-![alt text](https://github.com/TouKaienn/STSR-INR/blob/main/assets/model.pdf)
+![alt text](https://github.com/TouKaienn/STSR-INR/blob/main/assets/model.png)
 ## Description
 This is the Pytorch implementation for STSR-INR: Spatiotemporal Super-Resolution for Multivariate Time-Varying Volumetric
 Data via Implicit Neural Representation
