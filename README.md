@@ -47,9 +47,12 @@ Unzip the downloaded file and put the data into the root dir, you could get a si
 After Saving all your data in ./Data dir and then ensure ./dataInfo/localDataInfo.json includes all the necessary information for each volume data. Use the yaml file which contains all the hyper-parameters settings within ./configs dir to train or inference.
 
 We provide pre-trained model weight of ionization experiment, you could load and infer with:
+**(Note: this inference will take a few hours and the result will occupy around 70GB.)**
 ```
 python3 main.py --config_path './configs/ionization_inf.yml'
 ```
+After the inference, you could replicate Figure 6 of STSR-INR result following the rendering guide [here](https://github.com/TouKaienn/STSR-INR/blob/main/pretrainedIonization).
+
 To train from scratch:
 ```
 python3 main.py --config_path './configs/ionization_train.yml'
