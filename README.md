@@ -15,6 +15,8 @@ pip install -r requirements.txt
 ## Data Format
 The volume at each time step is saved as a .raw file with the little-endian format. The data is stored in column-major order, that is, z-axis goes first, then y-axis, finally x-axis. You could download our joint training and ionization data with the link over here: [here](https://drive.google.com/drive/folders/1RjDq75VhLtl-36qxYbAmF8idTVx2wzwF)
 
+Note: when load in data for optimization, we automatically normalize each input volume to [-1,1] before learning. If your input data value range is not [-1,1], you will still get a plausible result, but the PSNR evaluation in our code will output a low PSNR due to the value range difference.
+
 Unzip the downloaded file and put the data into the root dir, you could get a similar file structure like this:
 ```
 .
